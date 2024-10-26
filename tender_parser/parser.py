@@ -1,6 +1,6 @@
-#from selenium import webdriver
-#from webdriver_manager.chrome import ChromeDriverManager
-#from selenium.webdriver.chrome.service import Service
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 import time
@@ -8,19 +8,20 @@ import time
 from tender_parser.csv_loader import load_into_csv
 from tender_parser.html_parser import parsing_tenders
 from tender_parser.categories import Categories
-from selenium.webdriver.chrome.options import Options
-
-import undetected_chromedriver as uc
+#from selenium.webdriver.chrome.options import Options
 
 def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
-    options = Options()
-    options.add_argument("--headless")  # Без интерфейса
+    # Инициализация драйвера
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument('--ignore-certificate-errors')
 
-    # Инициализация драйвера с использованием undetected_chromedriver
-    driver = uc.Chrome(options=options)
+    service = Service()
+    driver = webdriver.Chrome(service=service, options=options)
 
     # Главная страница поиска
     driver.get("https://rostender.info/extsearch")
@@ -160,14 +161,15 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
     search_button.click()
     time.sleep(5)
 
+    write_header = True
     while True:
         tenders = parsing_tenders(driver.page_source)
-
         # если за даты нет тендеров
         if not tenders:
             break
 
-        load_into_csv(tenders)
+        load_into_csv(tenders, write_header)
+        write_header = False
 
         # Переход на следующую страницу, если она не последняя
         next_page_button = driver.find_elements(
