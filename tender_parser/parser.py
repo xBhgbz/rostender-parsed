@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 import time
+import os
 
 from tender_parser.csv_loader import load_into_csv
 from tender_parser.html_parser import parsing_tenders
@@ -160,6 +161,11 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
     scroll_page_to_elem(search_button)
     search_button.click()
     time.sleep(5)
+
+    try:
+        os.remove("parsed_tenders.csv")
+    except OSError:
+        pass
 
     write_header = True
     while True:
