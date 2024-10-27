@@ -16,7 +16,8 @@ date_from = right.date_input("До")
 options = Categories.get_tenders_fields()
 result = st.multiselect("Отрасли тендеров", options, placeholder="Выберите несколько опций")
 
-if st.button("Поиск"):
+left1, right1 = st.columns(2)
+if left1.button("Поиск"):
     if len(result) == 0:
         st.markdown("Отрасли не выбраны.")
     else:
@@ -28,3 +29,5 @@ if st.button("Поиск"):
             st.markdown("Тендеры не найдены.")
         else:
             st.table(table)
+            with open('parsed_tenders.csv') as f:
+                right1.download_button('Скачать CSV', f,  file_name='tenders.csv')  # Defaults to 'text/plain'

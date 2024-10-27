@@ -60,21 +60,21 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
     )
     scroll_page_to_elem(extended_search)
     extended_search.click()
-    time.sleep(1)
+    time.sleep(0.5)
 
     date_from = driver.find_element(By.XPATH, '//input[@id="tender-start-date-from"]')
     scroll_page_to_elem(date_from)
     date_from.click()
-    time.sleep(1)
+    time.sleep(0.5)
     date_from.send_keys(date_from_arg)
-    time.sleep(1)
+    time.sleep(0.5)
 
     date_to = driver.find_element(By.XPATH, '//input[@id="tender-start-date-to"]')
     scroll_page_to_elem(date_to)
     date_to.click()
-    time.sleep(1)
+    time.sleep(0.5)
     date_to.send_keys(date_to_arg)
-    time.sleep(1)
+    time.sleep(0.5)
 
     # Поле ввода
     search = driver.find_element(
@@ -83,7 +83,7 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
     )
     scroll_page_to_elem(search)
     search.click()
-    time.sleep(2)
+    time.sleep(0.5)
 
     # Scroll элементы для категорий тендеров
     categories_scroll_bar = driver.find_element(
@@ -111,12 +111,12 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
             - category_button.size["height"]
             - categories_window.location["y"],
         )
-        time.sleep(1)
+        time.sleep(0.5)
 
         # Сколлинг на странице
         scroll_page_to_elem(category_button)
         category_button.click()
-        time.sleep(1)
+        time.sleep(0.5)
 
         fields_list = driver.find_element(
             By.XPATH,
@@ -140,21 +140,21 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
             - checkbox.size["height"]
             - fields_window.location["y"],
         )
-        time.sleep(1)
+        time.sleep(0.5)
 
         # Скроллинг на странице
         scroll_page_to_elem(checkbox)
         checkbox.click()
-        time.sleep(1)
+        time.sleep(0.5)
 
         scroll_page_to_elem(category_button)
         category_button.click()
-        time.sleep(1)
+        time.sleep(0.5)
 
     # Убираем поиск
     scroll_page_to_elem(search)
     search.click()
-    time.sleep(1)
+    time.sleep(0.5)
 
     # Поиск тендеров
     search_button = driver.find_element(By.ID, "start-search-button")
@@ -190,4 +190,4 @@ def get_tenders_from_rostender(fields, date_from_arg, date_to_arg):
         scroll_page_to_elem(next_page_button[0])
         next_page_button[0].click()
 
-        time.sleep(7)
+        time.sleep(4)
