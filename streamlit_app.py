@@ -17,13 +17,14 @@ options = Categories.get_tenders_fields()
 result = st.multiselect("Отрасли тендеров", options, placeholder="Выберите несколько опций")
 
 if st.button("Поиск"):
-    #st.markdown(date_to.strftime("%d.%m.%Y") + " " + date_from.strftime("%d.%m.%Y") + " " + ",".join(result))
-
-    with st.spinner('Получаем тендеры...'):
-        get_tenders_from_rostender(result, date_to.strftime("%d.%m.%Y"), date_from.strftime("%d.%m.%Y"))
-    try:
-        table = pd.read_csv("parsed_tenders.csv", delimiter=',')
-    except:
-        st.markdown("Тендеры не найдены.")
+    if len(result) == 0:
+        st.markdown("Отрасли не выбраны.")
     else:
-        st.table(table)
+        with st.spinner('Получаем тендеры...'):
+            get_tenders_from_rostender(result, date_to.strftime("%d.%m.%Y"), date_from.strftime("%d.%m.%Y"))
+        try:
+            table = pd.read_csv("parsed_tenders.csv", delimiter=',')
+        except:
+            st.markdown("Тендеры не найдены.")
+        else:
+            st.table(table)
